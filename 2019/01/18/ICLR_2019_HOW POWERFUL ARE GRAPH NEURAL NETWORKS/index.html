@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Inner Peace">
 <meta property="og:description" content="Area Chair意见：对当前图神经网络方向有极好的理论贡献，录用为Oral。当前图神经网络是机器学习中一个越来越受欢迎的研究课题，这篇论文聚焦图神经网络的理论分析，很好地研究了一些新提出的变体的表征能力，也提出了根据WL test构建问题的框架，以及GIN体系结构的想法。 摘要用于图表示学习的图神经网络(GNNs)广泛地遵循邻居节点聚集框架，其中一个节点的表示向量通过递归地整合和转换相邻节点">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-21T12:10:18.766Z">
+<meta property="og:updated_time" content="2019-01-21T13:50:52.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HOW POWERFUL ARE GRAPH NEURAL NETWORKS">
 <meta name="twitter:description" content="Area Chair意见：对当前图神经网络方向有极好的理论贡献，录用为Oral。当前图神经网络是机器学习中一个越来越受欢迎的研究课题，这篇论文聚焦图神经网络的理论分析，很好地研究了一些新提出的变体的表征能力，也提出了根据WL test构建问题的框架，以及GIN体系结构的想法。 摘要用于图表示学习的图神经网络(GNNs)广泛地遵循邻居节点聚集框架，其中一个节点的表示向量通过递归地整合和转换相邻节点">
@@ -237,11 +237,11 @@ var _hmt = _hmt || [];
 </ul>
 <h1 id="提出模型方法"><a href="#提出模型方法" class="headerlink" title="提出模型方法"></a>提出模型方法</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>将邻居节点的特征向量抽象为一个多重集，即可能包含重复元素的集合。GNNs中的邻居聚合可以抽象为多重集上的函数。我们严谨地探讨了多重集函数的不同变体，并从理论上刻画了它们的判别能力，即不同的聚合函数区分多重集地程度。<strong>多重集函数的判别能力越强，其底层GNN的表征能力就越强。</strong></p>
 <h3 id="Graph-Nerual-Network"><a href="#Graph-Nerual-Network" class="headerlink" title="Graph Nerual Network"></a>Graph Nerual Network</h3><p>一般形式的GNN第$k$层：</p>
-<p>$$<br>a_v^{(k)} = AGGREGATE^{(k)}({h_u^{(k-1)}}:u \in N(v))<br>$$</p>
-<p>$$h_v^{(k)} = COMBINE^{(k)}(h_v^{(k-1)}, a_v^{(k)})$$</p>
+<p>$$ a_v^{(k)} = AGGREGATE^{(k)}({h_u^{(k-1)}}:u \in N(v))$$</p>
+<p>$$ h_v^{(k)} = COMBINE^{(k)}(h_v^{(k-1)}, a_v^{(k)})$$</p>
 <p>$h_v^{(k)}$ 是节点V在第K层的向量表示。$N(v)$是与节点V相连的节点集合。AGGREGATE和COMBINE的选择很关键。</p>
 <h4 id="GraphSAGE-Hamilton-et-al-2017a"><a href="#GraphSAGE-Hamilton-et-al-2017a" class="headerlink" title="GraphSAGE(Hamilton et al.,2017a)"></a>GraphSAGE(Hamilton et al.,2017a)</h4><p>AGGREGATE：<br>$$ a_v^{(k)} = MAX({ReLU(W \cdot h_u^{(k-1)})},\forall u \in N(v))$$ MAX表示element-wise的max-pooling, COMBINE方式是将k-1层输入$h_v^{(k-1)}$和$ a_v^{(k)}$拼接进行线性映射。</p>
-<h4 id="Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017"><a href="#Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017" class="headerlink" title="Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)"></a>Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)</h4><p>$$h_v^{(k)} = {ReLU(W \cdot MEAN({h_u^{(k-1)},\forall u \in N(v) \cup {v})}}$$</p>
+<h4 id="Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017"><a href="#Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017" class="headerlink" title="Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)"></a>Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)</h4><p>$$ h_v^{(k)} = {ReLU(W \cdot MEAN({h_u^{(k-1)},\forall u \in N(v) \cup {v})}}$$</p>
 <h3 id="Weisfeiler-Lehman-test"><a href="#Weisfeiler-Lehman-test" class="headerlink" title="Weisfeiler-Lehman test"></a>Weisfeiler-Lehman test</h3><p>图同构问题是指判断两个图是否拓扑等同。WL test 一维情形类似于GNNs中的邻居聚集。</p>
 <p>(1)聚合节点及其邻居的标签，(2)将聚合的标签散列成唯一的新标签。如果在某些迭代中两个图的节点标签不同，那么这两个图是不同的</p>
 <h2 id="理论框架"><a href="#理论框架" class="headerlink" title="理论框架"></a>理论框架</h2><p>何时GNN能将两个节点映射到嵌入空间中的同一位置（当前仅当他们有相同的子树结构，子树的对应节点也具有相同的特征）可用来分析GNN的表达能力。最有力的GNN不会将两个不同的邻居映射到同一位置，这也意味着它的聚集方法是单射。</p>
@@ -254,7 +254,7 @@ var _hmt = _hmt || [];
 <p>推论 6  如果$\chi$是可数的，存在一个函数$\chi \rightarrow \mathbb{R}^n$ 对无穷多个选择$\epsilon$，包括无理数，$h(c,X)=(1+\epsilon)\cdot f(c) + \sum_{x \in X}f(x)$对于$(c,X)$是唯一的，$c\in \chi, X \subset \chi$是有限的多重集。对于这样的组合，任何函数都可分解成$\phi$函数，$g(c,X) = \phi((1+\epsilon)\cdot f(c) + \sum_{x \in X}f(x))$</p>
 </blockquote>
 <p>用多层感知器建模学习推论6中的$f,\phi$,GIN更新表达式为:</p>
-<p>$$h_{\upsilon}^{(k)} = MLP^{(k)}((1+\epsilon^{(k)}) \cdot h_{\upsilon}^{(k-1)} + \sum_{u \in N(v)} h_u^{(k-1)})<br>$$</p>
+<p>$$ h_{\upsilon}^{(k)} = MLP^{(k)}((1+\epsilon^{(k)}) \cdot h_{\upsilon}^{(k-1)} + \sum_{u \in N(v)} h_u^{(k-1)})<br>$$</p>
 
       
 
