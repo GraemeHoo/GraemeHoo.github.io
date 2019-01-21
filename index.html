@@ -217,47 +217,20 @@ var _hmt = _hmt || [];
       </header>
     
     <div align="center" class="post-count">
-        字数：1,690字 | 预计阅读时长：6分钟
+        字数：1,689字 | 预计阅读时长：6分钟
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p> Area Chair意见：对当前图神经网络方向有极好的理论贡献，录用为Oral。当前图神经网络是机器学习中一个越来越受欢迎的研究课题，这篇论文聚焦图神经网络的理论分析，很好地研究了一些新提出的变体的表征能力，也提出了根据WL test构建问题的框架，以及GIN体系结构的想法。</p>
 <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>用于图表示学习的图神经网络(GNNs)广泛地遵循邻居节点聚集框架，其中一个节点的表示向量通过递归地整合和转换相邻节点的特征向量计算得到。许多GNN变体被提出，并在节点分类和图分类任务上取得了最STA结果。</p>
-<p>尽管GNNs革新了图表示学习，但人们对其<strong>表征性和局限性的理解却很有限</strong>。在此，<strong>论文提出了一个理论框架来分析GNNs在捕捉不同图形结构时的表达能力。</strong></p>
-<p>实验结果表现了流行的GNN变体(如图卷积网络和GraphSAGE)的识别能力，并表明它们无法学习区分某些简单的图结构。<br>我们开发了一个简单的体系结构，该体系结构被证明是gnn类中表达能力最强的，其功能与weisfeler -lehman图同构测试一样强大。在许多图分类基准上实证验证理论发现，证明我们的模型达到了最先进的性能。</p>
-<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>图神经网络广泛地利用递归的邻居信息聚合（传递）方法来获得该节点新的表示，具体为：通过 $k$次迭代整合，可以捕捉到节点的$k$阶邻居信息。整个图的表达可以通过池化获得，如将一个图内所有节点的表达相加。尽管该类GNN变体被许多学者提出，并在节点分类、链接预测、图分类任务中取得了不错的效果，但更多是基于先验直觉、启发式和实验试错的。对GNN性质与缺点的理论理解还较少，对GNN的表示能力的分析因此受限。</p>
-<p>因此，论文提出了一个理论框架对GNNs的表达能力进行分析。显示形式化描述了GNN变体方法在学习表示、区分不同图结构能力的异同。该框架的提出是受到GNNs与Weisfeiler-Lehman(WL)图同构测试的紧密联系的启发。WL是一种强有力的区分不同类型图的测试。类似于GNN通过迭代更新聚集邻居的节点特征向量，WL测试也是如此。WL有效的原因在于它的单射聚集更新将不同的节点邻居映射成不同的特征向量。</p>
-<p><strong>如果GNN的整合方式有很高的可解释性并能构建单射函数，那么GNN应该有与WL相近的区分能力。</strong></p>
-<h1 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h1><ul>
-<li>证明了GNNs在区分图结构方面的能力不超过WL test。(Lemma 2)</li>
-<li>在邻居聚合和图的池函数上设置条件(邻居聚集及池化函数是单射)，得到的GNN与WL test一样强大。(Theorem 3)</li>
-<li>识别不能用流行的GNN变体来区分的图结构，如GCN (Kipf &amp;(Welling, 2017)和GraphSAGE (Hamilton et al.， 2017a)，精确地描述了这种基于GNN的模型所能捕获的图结构类型。</li>
-<li>开发了一个简单的神经结构——图同构网络(GIN)，并证明了它的判别/表征能力等于WL测试的能力。</li>
-</ul>
-<h1 id="提出模型方法"><a href="#提出模型方法" class="headerlink" title="提出模型方法"></a>提出模型方法</h1><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>将邻居节点的特征向量抽象为一个多重集，即可能包含重复元素的集合。GNNs中的邻居聚合可以抽象为多重集上的函数。我们严谨地探讨了多重集函数的不同变体，并从理论上刻画了它们的判别能力，即不同的聚合函数区分多重集地程度。<strong>多重集函数的判别能力越强，其底层GNN的表征能力就越强。</strong></p>
-<h4 id="Graph-Nerual-Network"><a href="#Graph-Nerual-Network" class="headerlink" title="Graph Nerual Network"></a>Graph Nerual Network</h4><p>一般形式的GNN第$k$层：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a_v^&#123;(k)&#125; = AGGREGATE^&#123;(k)&#125;(&#123;h_u^&#123;(k-1)&#125;&#125;:u \in N(v))</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h_v^&#123;(k)&#125; = COMBINE^&#123;(k)&#125;(h_v^&#123;(k-1)&#125;, a_v^&#123;(k)&#125;)</span><br></pre></td></tr></table></figure>
-<p>$h_v^{(k)}$ 是节点V在第K层的向量表示。$N(v)$是与节点V相连的节点集合。AGGREGATE和COMBINE的选择很关键。</p>
-<h5 id="GraphSAGE-Hamilton-et-al-2017a"><a href="#GraphSAGE-Hamilton-et-al-2017a" class="headerlink" title="GraphSAGE(Hamilton et al.,2017a)"></a>GraphSAGE(Hamilton et al.,2017a)</h5><p>AGGREGATE：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a_v^&#123;(k)&#125; = MAX(&#123;ReLU(W \dot h_u^&#123;(k-1)&#125;)&#125;,\forall u \in N(v))</span><br></pre></td></tr></table></figure></p>
-<p>MAX表示element-wise的max-pooling, COMBINE方式是将k-1层输入$h_v^{(k-1)}$和$ a_v^{(k)}$拼接进行线性映射。</p>
-<h5 id="Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017"><a href="#Graph-Convolutional-Networks-GCN-Kipf-amp-Welling-2017" class="headerlink" title="Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)"></a>Graph Convolutional Networks (GCN) (Kipf &amp; Welling, 2017)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h_v^&#123;(k)&#125; = &#123;ReLU(W \cdot MEAN(&#123;h_u^&#123;(k-1)&#125;,\forall u \in N(v) \cup \&#123;v\&#125;)&#125;&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Weisfeiler-Lehman-test"><a href="#Weisfeiler-Lehman-test" class="headerlink" title="Weisfeiler-Lehman test"></a>Weisfeiler-Lehman test</h4><p>图同构问题是指判断两个图是否拓扑等同。WL test 一维情形类似于GNNs中的邻居聚集。</p>
-<p>(1)聚合节点及其邻居的标签，(2)将聚合的标签散列成唯一的新标签。如果在某些迭代中两个图的节点标签不同，那么这两个图是不同的</p>
-<h2 id="理论框架"><a href="#理论框架" class="headerlink" title="理论框架"></a>理论框架</h2><p>何时GNN能将两个节点映射到嵌入空间中的同一位置（当前仅当他们有相同的子树结构，子树的对应节点也具有相同的特征）可用来分析GNN的表达能力。最有力的GNN不会将两个不同的邻居映射到同一位置，这也意味着它的聚集方法是单射。</p>
-<p>GNN能够（1）通过将图映射到嵌入空间的不同位置来识别不同的树结构；（2）在嵌入空间捕抓结构相似性。<br>该论文主要关注第一个问题，仅对第二个问题作简短的讨论。</p>
-<p>将不同的图映射到不同嵌入空间的能力意味着解决图同构问题。通过一个较弱的区分标准（WL TEST) 来分析GNNs的表达能力。证明略。</p>
-<h2 id="GIN-图同构网络"><a href="#GIN-图同构网络" class="headerlink" title="GIN 图同构网络"></a>GIN 图同构网络</h2><blockquote>
-<p>Lemma 5 求和聚集器可以表示单射，实际上是在多重集上的通用函数</p>
-</blockquote>
-<blockquote>
-<p>推论 6 如果$\chi$是可数的，存在一个函数$\chi \rightarrow \mathbb{R}^n$ 对无穷多个选择$\epsilon$，包括无理数，$h(c,X)=(1+\epsilon)\cdot f(c) + \sum_{x \in X}f(x)$对于$(c,X)$是唯一的，$c\in \chi, X \subset \chi$是有限的多重集。对于这样的组合，任何函数都可分解成$\phi$函数，$g(c,X) = \phi((1+\epsilon)\cdot f(c) + \sum_{x \in X}f(x))$</p>
-</blockquote>
-<p>用多层感知器建模学习推论6中的$f,\phi$,GIN更新表达式为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h_&#123;\upsilon&#125;^&#123;(k)&#125; = MLP^&#123;(k)&#125;((1+\epsilon^&#123;(k)&#125;) \cdot h_&#123;\upsilon&#125;^&#123;(k-1)&#125; + \sum_&#123;u \in N(v)&#125; h_u^&#123;(k-1)&#125;)</span><br></pre></td></tr></table></figure></p>
-
+<p>尽管GNNs革新了图表示学习，但人们对其<strong>表征性和局限性的理解却很有限</strong>。在此，<strong>论文提出了一个理论框架来分析GNNs在捕捉不同图形结构时的表达能力。</strong><br>
+        
+          <a class="article-more-a" href="/2019/01/18/ICLR_2019_HOW POWERFUL ARE GRAPH NEURAL NETWORKS/#more">more >></a>
+        
       
 
       
-    </div>
+    </p></div>
     <div class="article-info article-info-index">
       
       
