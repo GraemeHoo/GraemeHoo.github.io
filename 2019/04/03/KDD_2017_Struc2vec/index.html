@@ -6,16 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Inner Peace</title>
+  <title>Learning Node Representations from StructuralIdentity | Inner Peace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="machine learning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Inner Peace">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="基于网络结构学习特征表示 摘要结构同一性是一个对称的概念，根据节点的网络结构及它们与其他节点的关系进行判断。结构同一性在过去的几十年里已经在理论和实践中得到了研究，但直到最近才被表征性学习技术所解决。该论文提出struc2vec是一个新颖可拓展的框架，学习具有相同网络结构的节点潜在特征表示。">
+<meta name="keywords" content="theory,feature learning,graph embedding">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning Node Representations from StructuralIdentity">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/KDD_2017_Struc2vec/index.html">
 <meta property="og:site_name" content="Inner Peace">
+<meta property="og:description" content="基于网络结构学习特征表示 摘要结构同一性是一个对称的概念，根据节点的网络结构及它们与其他节点的关系进行判断。结构同一性在过去的几十年里已经在理论和实践中得到了研究，但直到最近才被表征性学习技术所解决。该论文提出struc2vec是一个新颖可拓展的框架，学习具有相同网络结构的节点潜在特征表示。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/c7107b550f81325c75d8bd0841d8ea7c/xmlnote/D487801452CC49CF8CD324D855616A01/15633">
+<meta property="og:updated_time" content="2019-04-08T07:41:06.823Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Inner Peace">
+<meta name="twitter:title" content="Learning Node Representations from StructuralIdentity">
+<meta name="twitter:description" content="基于网络结构学习特征表示 摘要结构同一性是一个对称的概念，根据节点的网络结构及它们与其他节点的关系进行判断。结构同一性在过去的几十年里已经在理论和实践中得到了研究，但直到最近才被表征性学习技术所解决。该论文提出struc2vec是一个新颖可拓展的框架，学习具有相同网络结构的节点潜在特征表示。">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/c7107b550f81325c75d8bd0841d8ea7c/xmlnote/D487801452CC49CF8CD324D855616A01/15633">
   
     <link rel="alternative" href="/atom.xml" title="Inner Peace" type="application/atom+xml">
   
@@ -196,36 +202,83 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-KDD_2017_Struc2vec" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/KDD_2017_Struc2vec/" class="archive-article-date">
-  	<time datetime="2019-04-03T01:16:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/KDD_2017_Struc2vec/">Learning Node Representations from StructuralIdentity</a>
+    <h1 class="article-title" itemprop="name">
+      Learning Node Representations from StructuralIdentity
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/04/03/KDD_2017_Struc2vec/" class="archive-article-date">
+  	<time datetime="2019-04-03T01:16:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
+</a>
+        
+      </header>
+    
+    <div align="center" class="post-count">
+        字数：1,625字 | 预计阅读时长：6分钟
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>基于网络结构学习特征表示</em></p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>结构同一性是一个对称的概念，根据节点的网络结构及它们与其他节点的关系进行判断。结构同一性在过去的几十年里已经在理论和实践中得到了研究，但直到最近才被表征性学习技术所解决。该论文提出struc2vec是一个新颖可拓展的框架，学习具有相同网络结构的节点潜在特征表示。<br><a id="more"></a><br><strong>struc2vec使用层次结构来衡量节点相似性，通过构造一个多层图对结构相似性进行编码并产生节点的结构上下文</strong>。在其他SOTA方法无法很好捕抓结构同一性的情况下，struc2vec在一系列更依赖于结构同一性的分类任务中提升了分类表现。</p>
+<h2 id="Why-DeepWalk-node2vec-fails"><a href="#Why-DeepWalk-node2vec-fails" class="headerlink" title="Why DeepWalk/node2vec fails"></a>Why DeepWalk/node2vec fails</h2><p>现实世界中许多真实的网络具有同质性(相似节点在空间上更加接近)，因此并没能很好地捕抓到结构一致性。在一些更依赖于结构等同性的任务便不太适用。</p>
+<h1 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h1><ul>
+<li>评估节点间的结构相似性，并用不同的连接组成识别结构相似性。</li>
+<li>建立一种层次方法去衡量结构相似性，特别是，在层次结构的底部，节点之间的结构相似性只取决于它们的度，而在顶部，相似性取决于整个网络(从节点的角度来看)。</li>
+<li>生成节点的随机上下文，这是根据多层图（不是原来的图）中的加权随机游走确定的相似节点序列，因此如果两个节点频繁出现在相似上下文则可认为有相似的结构。</li>
+</ul>
+<h1 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h1><h2 id="相似度量"><a href="#相似度量" class="headerlink" title="相似度量"></a>相似度量</h2><div align="center"><br><img src="https://note.youdao.com/yws/public/resource/c7107b550f81325c75d8bd0841d8ea7c/xmlnote/D487801452CC49CF8CD324D855616A01/15633"><br></div>
+
+<p>在一些基于近邻学习特征表示的graph embedding方法中，顶点u与顶点v不相似，因为他们不直接相连，也没有共同的邻居。但struc2vec认为u,v是有空间结构相似性的，因为他们具有相近的节点度数及各邻接节点仍有相同的度数。$ R_k(u)$ 表示距离节点u为k的节点邻居集合（环）。$s(S)$表示集合$S \subset V $的有序度序列。$u,v$在层次$k$的结构距离为<br>$$ f_k(u,v) = f_{k-1}(u,v) + g(s(R_k(u)),s(R_k(v)),k\geq 0,|R_k(u)| &gt; 0,|R_k(v)| &gt; 0$$<br>$f_k(u,v)$比较$u,v$在同一距离的点集合的度序列，是非减的。</p>
+<p>由于 $s(R_k(u))$ 和 $s(R_k(v)) $的长度不同，并且可能含有重复元素。用动态时间规整DTW去度量两个有序度序列的距离，序列A,B中的元素啊a,b的距离为<br>$$<br>d(a,b)=\frac{max(a,b)}{min(a,b)}-1<br>$$</p>
+<h2 id="构造上下文图"><a href="#构造上下文图" class="headerlink" title="构造上下文图"></a>构造上下文图</h2><p>带权无向图的节点集合为V，同一层中两个节点间的边权可以定义为<br>$$w_k(u,v)=e^{-f_k(u,v)},k=0,…,k^<em>$$<br>通过有向边连接不同层次的同一顶点，<br>$$w(u_k,u_{k+1})=\log{(\Gamma_{k}(u)+e)},k=0,…,k^</em>-1;w(u_k,u_{k-1})=1,k=1,…,k^*$$<br>$\Gamma_k(u)$ 是第k层与u相连的边的边权大于平均边权的边的数量。$\Gamma_k(u) = \sum_{v \in V} 1(w_k(u,v)&gt;\bar{w_k}), \bar{w_k} $ 就是第k层所有边权的平均值。</p>
+<h2 id="顶点序列采样"><a href="#顶点序列采样" class="headerlink" title="顶点序列采样"></a>顶点序列采样</h2><p>利用有偏的随机游走在一系列的图$M$中进行顶点采样，以概率$p$在当前层($k$层)游走，顶点转移概率为<br>$$p_k(u,v)=\frac{e^{-f_k(u,v)}}{Z_k(u)}, Z_k(u)=\sum_{v\in V,v\ne u}e^{-f_k(u,v)}$$<br>$Z_k(u)$是第k层中关于顶点u的归一化因子。每次倾向于选择与当前节点结构相似的节点。<br>以$1-p$概率切换不同的层，其中<br>$$p_k(u_k,u_{k+1})=\frac{w(u_k,u_{k+1})}{w(u_k,u_{k+1})+w(u_k,u_{k-1})}<br>$$<br>$$p_k(u_k,u_{k-1})=1-p_k(u_k,u_k+1)<br>$$</p>
+<h2 id="优化trick"><a href="#优化trick" class="headerlink" title="优化trick"></a>优化trick</h2><h3 id="OPT1-优化有序度序列长度"><a href="#OPT1-优化有序度序列长度" class="headerlink" title="OPT1 优化有序度序列长度"></a>OPT1 优化有序度序列长度</h3><p>每个顶点在每一层都有一个有序度序列，空间复杂度为O(n)。为节约空间，文章提出一种压缩表示方法，统计相同的度数在该序列中出现的次数。压缩存储为(度数，出现次数)二元组。</p>
+<p>同时修改距离函数为：$dist(a,b)=(\frac{max(a_0,b_0)}{min(a_0,b_0)}-1)max(a_1,b_1),其中a_0,b_0 $为度数，$ a_1,b_1 $为度的出现次数。</p>
+<h3 id="OPT2-优化相似度计算"><a href="#OPT2-优化相似度计算" class="headerlink" title="OPT2 优化相似度计算"></a>OPT2 优化相似度计算</h3><p>在原始的方法中，我们需要计算每一层k中，任意两个顶点之间的相似度。在这其中存在计算冗余，因为两个度数差别很大的节点，在k=0时距离已经很大，在后续的层次相似度计算中更不可能被随机游走采样，故没有必要进行后续的计算</p>
+<p>文章给出的方法是在计算顶点u和其他顶点之间的距离时，只计算那些与顶点u的度数接近的顶点的距离。具体来说，在顶点u对应的有序度序列中进行二分查找，查找的过程就是不断逼近顶点u的度数的过程，只计算查找路径上的顶点与u的距离。 这样每一次需要计算的边的数量从$ n^2 $数量级缩减到$ n\log{n} $。</p>
+<h3 id="OPT3-限制层次带权图层数"><a href="#OPT3-限制层次带权图层数" class="headerlink" title="OPT3 限制层次带权图层数"></a>OPT3 限制层次带权图层数</h3><p>层次带权图$M$中的层数是由图的直径$ k^* $决定的。但是对很多图来说，图的直径会远远大于顶点之间的平均距离。</p>
+<p>当k接近 $k^<em> $时，环上的度序列 $s(R_k(u))$长度也会变得很短， $f_k(u,v) $和 $f_{k-1}(u,v) $会变得接近。因此将图中的层数限制为 $ k^{‘}&lt;k^{</em>}$ 使用最重要的一些层来评估结构相似度。这样的限制显著降低构造M时的计算和存储开销。</p>
+<h2 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h2><ul>
+<li>step 1. 针对一个节点，计算不同层次$k$的节点相似度，根据相似度构建多层次图$M$的边权（同一个层次图及跨层次边权）。</li>
+<li>step 2. 计算在当前层节点的游走转移概率及跨层游走概率，获得包含某个节点的随机游走采样序列。</li>
+<li>step 3. 重复以上步骤，将采样序列利用skip-gram学习，得到最终的embedding结果。</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -245,7 +298,7 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -258,74 +311,117 @@ var _hmt = _hmt || [];
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/03/KDD_2017_Struc2vec/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/01/18/ICLR_2019_HOW POWERFUL ARE GRAPH NEURAL NETWORKS/" class="archive-article-date">
-  	<time datetime="2019-01-18T08:09:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-18</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/18/ICLR_2019_HOW POWERFUL ARE GRAPH NEURAL NETWORKS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HOW POWERFUL ARE GRAPH NEURAL NETWORKS</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/01/18/ICLR_2019_HOW POWERFUL ARE GRAPH NEURAL NETWORKS/">HOW POWERFUL ARE GRAPH NEURAL NETWORKS</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GNN</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">representation</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">theory</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/note//" class="article-tag-list-link color5">note</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-DeepWalk-node2vec-fails"><span class="toc-number">1.1.</span> <span class="toc-text">Why DeepWalk/node2vec fails</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#contribution"><span class="toc-number">2.</span> <span class="toc-text">contribution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法原理"><span class="toc-number">3.</span> <span class="toc-text">算法原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#相似度量"><span class="toc-number">3.1.</span> <span class="toc-text">相似度量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造上下文图"><span class="toc-number">3.2.</span> <span class="toc-text">构造上下文图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#顶点序列采样"><span class="toc-number">3.3.</span> <span class="toc-text">顶点序列采样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化trick"><span class="toc-number">3.4.</span> <span class="toc-text">优化trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OPT1-优化有序度序列长度"><span class="toc-number">3.4.1.</span> <span class="toc-text">OPT1 优化有序度序列长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPT2-优化相似度计算"><span class="toc-number">3.4.2.</span> <span class="toc-text">OPT2 优化相似度计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPT3-限制层次带权图层数"><span class="toc-number">3.4.3.</span> <span class="toc-text">OPT3 限制层次带权图层数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法流程"><span class="toc-number">3.5.</span> <span class="toc-text">算法流程</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -348,8 +444,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
